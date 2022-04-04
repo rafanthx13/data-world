@@ -10,7 +10,7 @@
 
 **[DS Interviews Questions](https://rafanthx13.github.io/ds-interview-questions/)**
 
-**[My Personal Lib to DataScience Projects](https://rafanthx13.github.io/ds-interview-questions/)**
+**[barkion - my lib with snippets to data-science](https://github.com/rafanthx13/barkion)**
 
 
 
