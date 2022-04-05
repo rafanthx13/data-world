@@ -1,0 +1,5 @@
+# Geat Unkwon Libs
+
+![rise](https://pypi.org/project/rise/)
++ Lib que permite tranformar o JupyterNotebook em Slide
++ Idela para apressntaçâo, e você pode configurar que celulas msotra ou não
