@@ -1,0 +1,44 @@
+# Geat Unkwon Libs
+
+![rise](https://pypi.org/project/rise/)
++ Lib que permite tranformar o JupyterNotebook em Slide
++ Idela para apressntaçâo, e você pode configurar que celulas msotra ou não
+
+
+pip install nbdime
++ compara base com remoto das celulas do jupyter nnotebok. um gri aprimorado para ver a diff
+
+
+$ pipreqsnb . 
++ salar libs python de acordo com os imports do jupyter notebook
+
+=======================
+
+https://nbqa.readthedocs.io/en/latest/readme.html
+nbqua : 
++ Lib no CLI sobre o arquivo jupyter: aplica diversas coisa (liter, sort-imports e etcc, muiota cosia cmo PEP8)
+
+Nesse link mostra todas as opçoes
+
+https://nbqa.readthedocs.io/en/latest/examples.html
+
+black — formats Python code
+flake8 — checks the style and quality of your Python code
+isort — automatically sorts imported libraries alphabetically and separates them into sections and types.
+mypy — checks static type
+nbstripout — strips output from Jupyter notebooks
+
+pycatet: etapas de ds e ml automaticas
+
+
+=================
+
+dtale
++ lib abruda que permite analisar df em uma nova janela com umpnte de coisa, sem precisar usar mais celulas do jupyer notebok
++ É ALGO INCRIVEL
++ EXMEPLO} https://alphatechadmin.pythonanywhere.com/dtale/main/1
+https://github.com/man-group/dtale
+
+=============
+
+klib : data anlisys in one line

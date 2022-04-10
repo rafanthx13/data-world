@@ -1,7 +1,0 @@
-# Dar CTRL+C num dataframe
-
-df.to_clipboard(sep=',')  
-
-Ao invez de tentar passa o curso no dataframe gerado e clicar CTRL+C voce pode apartir de um metodo do pandas para jogar na area de copy; É possível atém emsmo definir o separador de cada coisa. 
-
-Funciona bem para peegar o DF e copiar par aum doc de texto (md, txt)

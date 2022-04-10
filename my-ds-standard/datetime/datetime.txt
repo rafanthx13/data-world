@@ -1,0 +1,29 @@
+https://khuyentran1401.github.io/Efficient_Python_tricks_and_tools_for_data_scientists/Chapter3/date_time.html
+
+## Acessar todos os valore de datetime
+
+Datetime é como uma classe que possui varios atributos:
+year, month, day, hour
+
+Voce acessar usando o attr dt na series pandas.Series.dt.
+
+````
+import pandas as pd 
+
+df = pd.DataFrame({"date": ["2021/05/13 15:00", "2022-6-20 14:00"], "values": [1, 3]})
+
+df["date"] = pd.to_datetime(df["date"])
+
+print(df["date"].dt.year )
+print(df["date"].dt.month )
+
+
+## filtrar df por data
+
+import pandas as pd 
+
+df = pd.DataFrame(
+    {"date": pd.date_range(start="2021-7-19", end="2021-7-23"), "value": list(range(5))}
+)
+filtered_df = df[df.date <= "2021-07-21"]
+filtered_df
