@@ -198,3 +198,37 @@ s = pd.Series(["a", "b", "c"])
 
 s.map({"a": 1, "b": 2, "c": 3})
 ````
+
+
+=============================
+
+Pipelin ONe-line in pandas
+
+https://towardsdatascience.com/efficient-data-manipulation-with-pandas-2cbc4e3824f9
+
+Se o seu codigo pandsa que começa com df.... ficar muito grande, paa ficar legivel voce pode escrever da seguinte forma 
+
+````python
+# start piping
+results = (
+    df
+    # only keep selected columns
+    [['LIMIT_BAL','EDUCATION','AGE']]
+    # keep where age is atleast 25
+    .query("AGE >= 25")
+    # make bins for the age
+    .assign(AGE= lambda x: ['youth' if i < 40 else 'mature' for i in x['AGE']])
+    # apply normalization to the LIMIT_BAL
+    .pipe(normalize,"LIMIT_BAL","NORMALIZED_LIMIT_BAL")
+    # aggregate data by age and education
+    .groupby(['AGE','EDUCATION',])
+    .agg(MEAN_LIMIT_BAL=("LIMIT_BAL","mean"),MAX_NORMAL_BAL=("NORMALIZED_LIMIT_BAL","max"))
+    # reset the index
+    .reset_index()
+)
+````
+
+====
+
+pandas.qcut: Bin a DataFrame’s Values into Equal-Sized Intervals
+Pega intervalo numerico e divide em partes iguais
