@@ -1,0 +1,8 @@
+time seires é quando o date-time é o indexe. ai é necessário criar aquelas visualizaçoes 
+
+15/04/2022 Acesse os seguintes links:
+
+https://www.kaggle.com/code/subinium/road-to-viz-expert-1-unusual-tools/notebook
+https://www.kaggle.com/code/rafanthx13/random-intro-to-time-series-predict-future-sales
+https://www.kaggle.com/code/residentmario/time-series-plotting-optional/notebook
+https://www.kaggle.com/code/kairosart/visualizing-data-time-series-plotting/notebook
