@@ -233,6 +233,20 @@ df['new_message'] = df['new_message'].apply(lambda x: lematizer(x))
 + [Submission](#index18)
 + [Conclusion](#index19)
 
+0	de RS 8.001/mês a RS 12.000/mês	479
+1	de RS 4.001/mês a RS 6.000/mês	403
+2	de RS 6.001/mês a RS 8.000/mês	393
+3	de RS 12.001/mês a RS 16.000/mês	263
+4	de RS 3.001/mês a RS 4.000/mês	183
+5	de RS 2.001/mês a RS 3000/mês	180
+6	de RS 16.001/mês a RS 20.000/mês	129
+7	de RS 1.001/mês a RS 2.000/mês	126
+8	de RS 20.001/mês a RS 25.000/mês	62
+9	de RS 25.001/mês a RS 30.000/mês	43
+10	de RS 30.001/mês a RS 40.000/mês	38
+11	Acima de RS 40.001/mês	34
+12	Menos de RS 1.000/mês	32
+
 
 
 <a id="top"></a>

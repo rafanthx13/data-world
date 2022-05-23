@@ -27,6 +27,23 @@ Somente 5 estados os brancos nâo são maioria, em Dc (os negros tem mais), em H
 
 Apesar disso, nehuma raça tem mais de 50% em nenhum estado a nao ser os brancos, ou seja, qualquer outro pode liderar o raking em certos estados mas nunca chega a compor 50% dele.
 
+**Criar nova celula automaticamente na kaggle**
+
+2022-05-19
+
+def create_new_cell(contents):
+    from IPython.core.getipython import get_ipython
+    shell = get_ipython()
+
+    payload = dict(
+        source='set_next_input',
+        text=contents,
+        replace=False,
+    )
+    shell.payload_manager.write_payload(payload, single=False)
+
+Passa o conteudo que vai criar; Só cria uma mais é um começo
+
 
 **Add Cell**
 
