@@ -94,3 +94,6 @@ To split cell
 Ctrl+Shift+- - Split current cell at the cursor into 2 seperate cells
 
 
+# Como gerar o Table Of Content do próprio site da Kaglge
+
+Tudo que estiver com `#` (Ou seja, H1) vai aparecer ali
