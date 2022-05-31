@@ -201,6 +201,174 @@ plotly_cat_to_cat(
 
 
 
+
+
+### CAT BY CAT KDE
+
+```python
+def plotly_kde_cat_to_cat(df, catx, caty, width=800, title='',
+                          height=500, x_title='',
+                          order_func=None):
+    # source: https://www.kaggle.com/code/ceruttivini/cientista-ou-analista-de-dados-qual-a-diferen-a
+    
+    cols = [catx, caty]
+    df_temp = df.groupby(cols).size().to_frame('count').reindex(
+        pd.MultiIndex.from_product([df[catx].unique(), df[caty].unique()]), fill_value = 0)
+    df_temp = df_temp.reset_index().dropna()
+    df_temp.columns = cols + ['count']
+    
+    df_temp['percentage'] = get_percentage_complex(df_temp, df, catx)
+    df_temp['total'] = df_temp['percentage']
+    df_temp.columns = cols + ['Counts', 'Percentage', 'Total']
+    
+    if(order_func):
+        df_temp['ordem'] = df_temp[catx].apply(lambda x: order_func(x))
+        df_temp = df_temp.sort_values(['ordem', catx])
+    
+    fig = go.Figure()
+    caty_values = list(df[caty].unique())
+
+    for caty_val in caty_values:
+
+        fig.add_trace(go.Scatter(
+            y = df_temp[df_temp[caty] == caty_val]['Percentage'],
+            x = df_temp[df_temp[caty] == caty_val][catx],
+            text = df_temp[df_temp[caty] == caty_val]['Percentage'],
+#             marker_color = df_temp[df_temp[caty] == caty_val]['Color'].iloc[0],
+            name = caty_val,
+            marker_size = 4.5, # tamanho do indicador que fica na linha
+            textfont_size = 9, # tamanho da fonte dos textos
+            line_shape='spline', # habilitar linhas suavizadas
+            line_smoothing=0.8, # % de suavidade aplicada nas linhas
+            orientation= 'v',
+            customdata = round(df_temp[df_temp[caty] == caty_val]['Percentage'],2),
+            hovertemplate= "%{customdata}% - %{x}<extra></extra>"
+        ))
+
+    fig.update_layout(
+        title = '<b>' + title + '</b>',
+        showlegend=True, # habilitar legenda
+        plot_bgcolor = "#fff", # cor de fundo
+        yaxis_showgrid = False, # remoção das linhas dos fundos do eixo y
+        legend_yanchor="top", # posição da legenda
+        legend_xanchor="left", # início do espaçamento da legenda
+        legend_y=1.15, # espaçamento vertical da legenda
+        legend_x= -0.1, # espaçamento horizontal da legenda
+        legend_orientation="h", # orientação da legenda
+        width = width,
+        height = height,
+        xaxis_title_text = x_title if x_title else catx, # titulo que fica ao lado do eixo x
+        xaxis_title_font_color='grey',# cor do título que fica ao lado do eixo x
+        xaxis_color='grey', # cor do eixo x
+        yaxis_title_text = 'Percentage', # titulo que fica ao lado do eixo y
+        yaxis_title_font_color='grey',# cor do título que fica ao lado do eixo y
+        yaxis_color='grey', # cor do eixo y
+        yaxis_showticksuffix = 'all', # habilitação de sufixo para eixo y
+        yaxis_ticksuffix  ='%', # adição de "%" na label do eixo y se for porcentagem
+
+    )
+
+    fig.show()
+    
+```
+
+```python
+import plotly.graph_objects as go
+
+def order_by_salary(x):
+    return mapping_faixa_salario_re[x]
+    
+cat_salary, cat_y = "('P2_h ', 'Faixa salarial')", "('P2_g ', 'Nivel')"
+cols = [cat_salary, cat_y]
+
+df_temp = df[cols].dropna()
+df_temp[cat_salary] = df_temp[cat_salary].apply(
+    lambda x: x.replace('R$', 'RS') )
+
+plotly_kde_cat_to_cat(df_temp, cat_salary, cat_y,
+                      title='Faixa Salarial por Senioridade',
+                      x_title='Faixa Salarial',
+                      order_func=order_by_salary)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_kde_cat_to_cat.png)
+
+### SCATTER POLAR -> CAT BY CAT FILTERING
+
+```python
+def plotly_scatter_polar(df, catx, x_vals, caty, y_vals, title, range_=100):
+    """
+    Faz ScatterPolar de cat com cat, escolhendo cat values de X com y
+    range eh tamanho do angulo, deve ser regulado para cada grafico em particular apos ver como fica em 100
+    """
+    # source: https://www.kaggle.com/code/ceruttivini/cientista-ou-analista-de-dados-qual-a-diferen-a
+    
+    adict_dfs = {}
+    for xval in x_vals:
+        df_start = df[ df[catx] == xval]
+        df_aux = df_start[caty].value_counts().reset_index().rename(
+            columns={'index': caty, caty: 'count'})
+        df_aux['percent'] = 100 * (df_aux['count'] / df_start[caty].count())
+        df_aux = df_aux[ df_aux[caty].isin(y_vals) ]
+        # para fazer um contorno no formato de círculo é necessário
+        # fazer a inclusão do primeiro valor como último
+        df_aux = df_aux.append(df_aux.iloc[0,:])
+        adict_dfs[xval] = df_aux
+        
+    fig = go.Figure()
+    
+    for key, value in adict_dfs.items():
+        fig.add_trace(go.Scatterpolar(
+            r=value['percent'],
+            theta=value[caty],
+            name=key,
+            marker_size = 9.5, # tamanho dos indicadores das linhas (bolinhas)
+            line_width=2.6, # grossura da linha da resposta,
+            showlegend = True, # showlegend and len(self.polar_layout)+1 < 2, # opção de adicionar legenda para cada linha
+            hoverinfo='r+theta+name', # padrão quando passar o mouse em cima
+            customdata = value['count'],
+            hovertemplate='%{r:0.0f}%<br>%{theta}<br>%{customdata}'
+        ))
+        
+    fig_polar_layout = {
+        "bgcolor":"white", # cor de fundo
+        "radialaxis_visible":True, # apresentação da grid
+        "radialaxis_showticklabels":True, # apresentação de texto da grid
+        "radialaxis_tickfont_color":"darkgrey", # cor do texto da grid
+        "radialaxis_layer":"below traces", # se a linha passa os pontos ou nao
+        "radialaxis_gridcolor":"#d9d7d7", # cor da grid
+        "radialaxis_tickangle": -350, # angular da label da grid
+        "radialaxis_range":(0,range_),# intervalo da grid
+        "radialaxis_tickvals":list(range(10,range_,10)),# intervalo do texto grid
+        "radialaxis_ticktext":[ f"{t}%" if t % 20 == 0 else "" for t in range(10,range_,10)], # texto da grid 
+        "radialaxis_tickfont_size" : 10, # fonte da grid
+        "angularaxis_tickfont_size" : 14} # fonte das opções de resposta
+    fig.update_layout(
+        title=title,
+        polar=fig_polar_layout
+    )
+    
+    fig.show()
+```
+
+Usando
+
+```python
+x_col = "('P2_f ', 'Cargo Atual')"
+x_vals = ['Cientista de Dados/Data Scientist',                      
+'Analista de BI/BI Analyst/Analytics Engineer',               
+'Analista de Dados/Data Analyst',                             
+'Engenheiro de Dados/Data Engineer']   
+
+y_col = "('P4_e ', 'Entre as linguagens listadas abaixo, qual é a que você mais utiliza no trabalho?')"
+y_vals = ['Python', 'SQL', 'R', 'Java', 'Scala']
+
+
+plotly_scatter_polar(df, x_col, x_vals, y_col, y_vals, 'Linguagens por Cargos', 85)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_scatter_polar.png)
+
 ### Describe cat Feat filtering by others cat-feats in df
 
 Tenha como base uma cat-feat, depois é feito uma filtragem do DataFrame de outras cat-feats usando valores fornecidos em um dicionário. Por fim é aplicado o bar_plot_one feat sobre esse dataframe filstrado. O titulo é feito pela composiçâo das colunas usadas para filtrar.
