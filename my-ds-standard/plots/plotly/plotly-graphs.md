@@ -410,6 +410,98 @@ CUIDADO COM A ORDENAÇÃO: você pode criar uma coluna com a ordem, fazer um `so
 
 ![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\bar_plotly_describe_cat_feat_filter_cat_feats_values.png)
 
+### CAT BY CAT HEAT MAP
+
+```python
+def plotly_heatmap_cat_feats(
+    df, catx, caty, title, escala_cor=None, yaxis_titulo=None,
+    xaxis_titulo=None, largura = 700, altura= 450, pct=False,
+    order_list_x_axis=None):
+        """
+            Método que constrói um gráfico/tabela em mapa de calor 
+            Parâmetros:
+            ----------
+            z: valores para z (eixo z = valor = cor)
+            x: valores para x (eixo x = cat values)
+            y: valores para y (eixo y = cat values)
+            escala_cor: uma lista com escala de cores para degrade
+            titulo: título do gráfico
+            yaxis_titulo: titulo para ficar ao lado do eixo y
+            xaxis_titulo: titulo para ficar ao lado do eixo x
+            largura: largura do gráfico
+            altura: altura do gráfico
+            pct: se os valores são porcentagem, desta forma já adiciona "%" nos textos
+        """
+        # Pre processing
+        dft = df[ [catx, caty] ]
+        dft = dft.groupby([catx,caty]).size().reset_index()
+        dft.columns = ['catx', 'caty', 'values']
+        dft = pd.pivot_table(
+            dft, values='values', index='caty',
+            columns='catx', aggfunc=np.sum, fill_value=0)
+        if(order_list_x_axis):
+            dft = dft[order_list_x_axis]
+        
+        fig = go.Figure()
+
+        fig.add_trace(go.Heatmap(
+            z = dft,
+            x = dft.columns.tolist(),
+            y = dft.index.tolist(),
+            # texto para ser apresentado se for porcentagem, converter para porcentagem
+            text = dft.apply(lambda col: self.porcentagem_texto(col)) if pct else dft, 
+            texttemplate = "%{text}",
+            ygap = 1, # adição de uma linha em volta dos quadrados
+            xgap = 1, # adição de uma linha em volta dos quadrados
+            # degrade para se realizar de acordo com os valores
+            colorscale = escala_cor if escala_cor else px.colors.sequential.Blues, 
+            showscale = False, # remover a imagem de escala ao lado do gráfico
+            hovertemplate= "%{x}<br>%{y}<br>%{text}<extra></extra>"
+        ))
+
+        fig.update_layout(
+            title= title,
+            # xaxis_tickangle = 0, # deixar as labels (ticks) do eixo x horizontalmente
+            width = largura,
+            height = altura,
+            yaxis_title_text = yaxis_titulo if yaxis_titulo else caty, 
+            xaxis_title_text = xaxis_titulo if xaxis_titulo else catx,
+            xaxis_title_font_color='grey',# cor da fonte do título eixo X
+            yaxis_title_font_color='grey',# cor da fonte do título eixo y
+            # yaxis_tickfont_size = 12, # tamanho da fonte para labels (ticks) do eixo y
+            # xaxis_tickfont_size = 12, # tamanho da fonte para labels (ticks) do eixo x
+            xaxis_color='grey',# cor das labels (ticks) do eixo X
+            yaxis_color='grey' # cor das labels (ticks) do eixo y
+        )
+        fig.show()
+        
+```
+
+usando
+
+```python
+catx = "('P2_i ', 'Quanto tempo de experiência na área de dados você tem?')"
+caty = "('P2_g ', 'Nivel')"
+true_order = [
+     'Não tenho experiência na área de dados', 
+     'Menos de 1 ano', 
+     'de 1 a 2 anos', 
+     'de 2 a 3 anos', 
+     'de 4 a 5 anos', 
+     'de 6 a 10 anos',
+     'Mais de 10 anos', 
+]
+
+plotly_heatmap_cat_feats(
+    df, catx, caty, title='Exp em Dados por Nível',
+    order_list_x_axis=true_order
+)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats.png)
+
+
+
 ## NUMBER FEAT
 
 ### DESCRIBE NUMBER FEAT
