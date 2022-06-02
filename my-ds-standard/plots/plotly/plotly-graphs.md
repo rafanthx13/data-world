@@ -322,8 +322,11 @@ def plotly_scatter_polar(df, catx, x_vals, caty, y_vals, title, range_=100):
             r=value['percent'],
             theta=value[caty],
             name=key,
+            mode='lines',
+            line_shape='spline',
+            line_smoothing=0.8,
             marker_size = 9.5, # tamanho dos indicadores das linhas (bolinhas)
-            line_width=2.6, # grossura da linha da resposta,
+            line_width=1.6, # grossura da linha da resposta,
             showlegend = True, # showlegend and len(self.polar_layout)+1 < 2, # opção de adicionar legenda para cada linha
             hoverinfo='r+theta+name', # padrão quando passar o mouse em cima
             customdata = value['count'],
@@ -343,9 +346,12 @@ def plotly_scatter_polar(df, catx, x_vals, caty, y_vals, title, range_=100):
         "radialaxis_ticktext":[ f"{t}%" if t % 20 == 0 else "" for t in range(10,range_,10)], # texto da grid 
         "radialaxis_tickfont_size" : 10, # fonte da grid
         "angularaxis_tickfont_size" : 14} # fonte das opções de resposta
+    
     fig.update_layout(
         title=title,
-        polar=fig_polar_layout
+        polar=fig_polar_layout,
+        width = 900, # chart size 
+        height = 450 # chart size
     )
     
     fig.show()
