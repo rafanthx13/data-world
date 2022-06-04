@@ -77,7 +77,7 @@ def pie_plotly_cat_feat(adf, col, title):
 ### `bar_plotly_cat_feat`
 
 ```python
-def bar_plotly_cat_feat(adf, col, title='', x_col_rename=''):
+def bar_plotly_cat_feat(adf, col, title='', x_col_rename='', order_array=None):
     """
     Cria BarPlotly usando Value counts de uma Series  cat-feat
     """
@@ -99,6 +99,50 @@ def bar_plotly_cat_feat(adf, col, title='', x_col_rename=''):
         color=qtd_col, hover_data=[percentage_col],
         text=percentage_col, title=title,
         color_continuous_scale='dense'
+    )
+    if(order_array):
+        fig.update_layout(
+             xaxis={'categoryorder':'array', 'categoryarray':order_array}
+        )
+    fig.show()
+```
+
+Versâo com melhoria (sem eixo y e mono cor)
+
+```python
+def bar_plotly_cat_feat(adf, col, title='', x_col_rename='', order_array=None):
+    """
+    Cria BarPlotly usando Value counts de uma Series  cat-feat
+    """
+    # Define Constants
+    the_title = '<b>' + title + '</b>'
+    qtd_col = 'Quantidade' # pode ser mudado para 'count'
+    percentage_col = 'Porcentagem' # pode ser mudado para 'percent'
+    x_col = x_col_rename if x_col_rename else col
+    # Pre-Processing
+    df_temp = adf[col].value_counts().reset_index().rename(
+        columns={'index': x_col, col: qtd_col}
+    )
+    # Col Percentage in String
+    df_temp[percentage_col] = round(
+        (df_temp[qtd_col] / df_temp[qtd_col].sum()) * 100.0, 2).apply(
+        lambda x: str(format(x,'.2f')) + '%' )
+    # BarPlotly Figure
+    fig = px.bar(
+        df_temp, y=qtd_col, x=x_col,
+        # color=qtd_col, # se ativado vai colorir de forma continua de acordo com o valor
+        # color_continuous_scale='dense',
+        hover_data=[percentage_col],
+        text=percentage_col, title=the_title,
+    )
+    if(order_array):
+        fig.update_layout(
+             xaxis={'categoryorder':'array', 'categoryarray':order_array}
+        )
+    fig.update_layout(
+        yaxis_visible=False, # Remove eixo 'Quantidade'
+        yaxis_showticklabels=False, # não apresentar labels(ticks) no eixo y
+        plot_bgcolor = "#fff", # fundo da cor branco, O NORMAL É SER AZUL CLARO
     )
     fig.show()
 ```
