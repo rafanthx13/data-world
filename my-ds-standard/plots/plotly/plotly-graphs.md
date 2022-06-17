@@ -176,7 +176,7 @@ def get_percentage_complex(df1, df_origin, col_target):
         array.append(v)
     return array
 
-def plotly_cat_to_cat(df, catx, cat2, title='', orderby_func=None):
+def plotly_cat_to_cat(df, catx, cat2, title='', orderby_func=None, order_ascending=None):
     """
     Amabas devem ser cat feats
     orderby_func = muitas vezes a cat_feat eh ordenavel, use essa campos para designar a funcao
@@ -191,15 +191,19 @@ def plotly_cat_to_cat(df, catx, cat2, title='', orderby_func=None):
         pd.MultiIndex.from_product([df[catx].unique(), df[cat2].unique()]), fill_value = 0)
     df_temp = df_temp.reset_index().dropna()
     df_temp.columns = cols + ['count']
-    
+
     df_temp['percentage'] = get_percentage_complex(df_temp, df, catx)
     df_temp['total'] = df_temp['percentage']
     df_temp.columns = cols + ['Counts', 'Percentage', 'Total']
-
+    
+    if(not order_ascending is None):
+        df_temp = df_temp.sort_values('Percentage', ascending=order_ascending)    
+    
     fig = px.bar(df_temp, x=catx, y=['Total'], color=cat2,
        category_orders=orderby_func, hover_data=['Counts'],
        text=df_temp['Percentage'].apply(lambda x: '{0:1.2f}%'.format(x)),
        title=title)
+    
     fig.show()
 ```
 
