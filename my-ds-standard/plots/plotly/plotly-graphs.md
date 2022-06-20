@@ -665,3 +665,43 @@ plotly_describe_numberf_by_catf(df, "('P1_a ', 'Idade')", "('P2_g ', 'Nivel')", 
 ```
 
 ![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_describe_numberf_by_catf.png)
+
+## OTHERS DETAILS
+
+### Apply color, annottion and text in graph
+
+Como pintar somente uma coluna; desenhar cor e por texto
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\how-apply-it.png)
+
+```python
+########## COLORIR SOMENTE UMA COLUNA ##########
+# Precisa fazer um array do tamanho de colunas e a única coluna que quer que mude terá uma cor diferente das outras (todas são #636EFA e somente Brazil é 'orange')
+loc = 
+df.groupby(df.columns[3]).age.mean().sort_values(ascending=False).index.to_list().index(country)
+color = ['#636EFA']*len(df.groupby(df.columns[3]).age.mean().sort_values(ascending=False).index)
+color[loc] = 'orange'
+
+fig = go.Figure(data=[go.Bar(x=df.groupby(df.columns[3]).age.mean().sort_values(ascending=False).index
+       , y=df.groupby(df.columns[3]).age.mean().sort_values(ascending=False)
+            , marker_color=color)])
+
+
+########## DESENHAR LINHA HORIZONTAL ##########
+fig.update_layout(
+    shapes=[
+    dict(
+      type= 'line',
+      yref= 'y', y0= global_median, y1= global_median,
+      xref= 'x', x0= -0.5, x1= len(df.groupby(df.columns[3]).age)-0.5
+    )],
+    title=title,
+    xaxis_title=None,
+    yaxis_title='Age')
+
+########## ADICIONAR TEXTO NO GRÁFICO ##########
+fig.add_annotation(x=len(df.groupby(df.columns[3]).age)*0.95, y=global_median, xshift=-20, yshift=10,
+            text="Global Average",
+            showarrow=False)
+```
+

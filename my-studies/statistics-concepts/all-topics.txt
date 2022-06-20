@@ -1,0 +1,9 @@
+
+Anotar aqui todo topico de DS/ML;DL que encontrar
+
+https://www.udemy.com/course/estatistica-para-ciencia-de-dados-machine-learning/
+Estatistics
+- t-student
+- anova
+- teste Z
+- qui-quadradi
