@@ -74,6 +74,53 @@ def pie_plotly_cat_feat(adf, col, title):
 
 ![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\pie_plot_one_cat_feat.png)
 
+### `pie_plot_one_cat_feat`
+
+```
+def pie_plot_one_feat(df, col, title, replaces={}, break_line=False, break_point=10, color_dict=None):
+    df_col = df[col]
+    df_col = df_col.replace(replaces)
+    df_aux = df_col.value_counts().reset_index().rename(
+        columns={'index': 'Valor', col: 'Quantidade'})
+    
+    if(break_line):
+        df_aux['Valor'] = df_aux['Valor'].apply(
+            lambda x:  x if len(x.split(' ')) < break_point else insert_break_line(x) )
+        
+    if(color_dict):
+        df_aux['color'] = df_aux['Valor'].map(color_dict)
+        
+    fig = px.pie(
+        df_aux, values='Quantidade', names='Valor', title=title,
+        color_discrete_sequence=df_aux['color'] if color_dict else px.colors.qualitative.Pastel,
+    )
+    fig.update_traces(textposition='inside', textinfo='percent+label')
+    fig.show()   
+```
+
+Definido cores
+
+```
+colors = {
+    'Cientista de Dados': '#1979A9',
+    'Analista de BI': '#E9C310',
+    'Analista de Dados': '#56A77F',
+    'Engenheiro de Dados': '#d7837f',
+    'Júnior' : '#66c5cc',
+    'Pleno' : '#b497e7',
+    'Sênior': '#f89c74',
+    'Gestor': '#fe88b0',
+}
+```
+
+
+
+```
+pie_plot_one_feat(df, 'nivel', 'Niveis de Senioridade', color_dict=colors)
+```
+
+
+
 ### `bar_plotly_cat_feat`
 
 ```python
@@ -464,13 +511,15 @@ CUIDADO COM A ORDENAÇÃO: você pode criar uma coluna com a ordem, fazer um `so
 
 ![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\bar_plotly_describe_cat_feat_filter_cat_feats_values.png)
 
-### CAT BY CAT HEAT MAP
+###  HEAT MAP CAT BY CAT
 
 ```python
 def plotly_heatmap_cat_feats(
-    df, catx, caty, title, escala_cor=None, yaxis_titulo=None,
-    xaxis_titulo=None, largura = 700, altura= 450, pct=False,
-    order_list_x_axis=None):
+    df, catx, caty, title='', color_scale=None, yaxis_titulo=None,
+    xaxis_titulo=None, largura=700, altura=450, pct_axis=None,
+    order_list_x_axis=None, order_list_y_axis=None,
+    df_original_cuz_is_filtered=None
+):
         """
             Método que constrói um gráfico/tabela em mapa de calor 
             Parâmetros:
@@ -478,37 +527,76 @@ def plotly_heatmap_cat_feats(
             z: valores para z (eixo z = valor = cor)
             x: valores para x (eixo x = cat values)
             y: valores para y (eixo y = cat values)
-            escala_cor: uma lista com escala de cores para degrade
-            titulo: título do gráfico
+            color_scale: uma lista com escala de cores para degrade
+            title: título do gráfico
             yaxis_titulo: titulo para ficar ao lado do eixo y
             xaxis_titulo: titulo para ficar ao lado do eixo x
             largura: largura do gráfico
             altura: altura do gráfico
-            pct: se os valores são porcentagem, desta forma já adiciona "%" nos textos
+            order_list_x_axis e order_list_y_axis: Ordem para os eixos categoricos
+            pct_axis: (x||y) converte em porcentagem olhando as linhas (x) ou coluna (y)
+            df_original_cuz_is_filtered: Se fizer um df.query é capaz de perder combinaçôes de x e y
+                Mandndo o df original, é possível recuperar e setar como 0
         """
         # Pre processing
         dft = df[ [catx, caty] ]
         dft = dft.groupby([catx,caty]).size().reset_index()
+        
         dft.columns = ['catx', 'caty', 'values']
         dft = pd.pivot_table(
             dft, values='values', index='caty',
             columns='catx', aggfunc=np.sum, fill_value=0)
+        
+        # df_original_cuz_is_filtered (como 'plotly_heatmap_cat_feats_3')
+        # Caso 'df' ser originário de uma filtragem (exemplo df.query('cargo == "Analista de BI"'))
+        # Nesse formato eh melhor, pois fazer qualquer  filtragem
+        # O QUE FAZ: a filtragem pode retirar combinaçoes dos eixos x e y, e por isso
+        # o codigo a seguir insere essa combinaçôes faltante como 0
+        if(df_original_cuz_is_filtered is not None):
+            df_original = df_original_cuz_is_filtered
+            for col in df_original[catx].unique().tolist():
+                if(col not in dft.columns.tolist()):
+                    # add zero column
+                    dft[col] = 0
+            for indx in df_original[caty].unique().tolist() :
+                if(indx not in dft.index.tolist()):
+                    dft.loc[indx] = 0    
+        
         if(order_list_x_axis):
             dft = dft[order_list_x_axis]
+            
+        if(order_list_y_axis):
+            dft = dft.reindex(order_list_y_axis)
         
+        is_porcentage = not pct_axis is None
+        
+        # calculate percentage in x-axis
+        if(pct_axis == 'x'):
+            for col in dft.columns:
+                sum_values = dft[col].sum()
+                dft[col] = round(100*(dft[col] / sum_values), 1)
+
+        # calculate percentage in y-axis
+        if(pct_axis == 'y'):
+            for index in dft.index:
+                sum_vals = dft.loc[index].sum()
+                dft.loc[index] = round(100 * (dft.loc[index] / sum_vals), 2)
+            
         fig = go.Figure()
+        global df_out
+        df_out = dft
 
         fig.add_trace(go.Heatmap(
             z = dft,
             x = dft.columns.tolist(),
             y = dft.index.tolist(),
             # texto para ser apresentado se for porcentagem, converter para porcentagem
-            text = dft.apply(lambda col: self.porcentagem_texto(col)) if pct else dft, 
+            text = dft.apply(lambda col: col.round(2).astype(str)+"%") if is_porcentage else dft, 
             texttemplate = "%{text}",
             ygap = 1, # adição de uma linha em volta dos quadrados
             xgap = 1, # adição de uma linha em volta dos quadrados
             # degrade para se realizar de acordo com os valores
-            colorscale = escala_cor if escala_cor else px.colors.sequential.Blues, 
+            colorscale = color_scale if color_scale else px.colors.sequential.Greys, 
             showscale = False, # remover a imagem de escala ao lado do gráfico
             hovertemplate= "%{x}<br>%{y}<br>%{text}<extra></extra>"
         ))
@@ -516,8 +604,8 @@ def plotly_heatmap_cat_feats(
         fig.update_layout(
             title= title,
             # xaxis_tickangle = 0, # deixar as labels (ticks) do eixo x horizontalmente
-            width = largura,
-            height = altura,
+            width = largura if not is_porcentage else largura + 200,
+            height = altura if not is_porcentage else altura + 100,
             yaxis_title_text = yaxis_titulo if yaxis_titulo else caty, 
             xaxis_title_text = xaxis_titulo if xaxis_titulo else catx,
             xaxis_title_font_color='grey',# cor da fonte do título eixo X
@@ -528,7 +616,6 @@ def plotly_heatmap_cat_feats(
             yaxis_color='grey' # cor das labels (ticks) do eixo y
         )
         fig.show()
-        
 ```
 
 usando
@@ -554,7 +641,155 @@ plotly_heatmap_cat_feats(
 
 ![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats.png)
 
+É possível agora filtra o dataframe e fazer o heatmap contando as combinaçoes que nao ocorrem entre x e y após a filtragem
 
+```python
+plotly_heatmap_cat_feats(
+    df.query('cargo == "Analista de BI"'), 
+    "salario",
+    "nivel",
+    title='Contagem Salario x Senioridade para Cientista de Dados',
+    order_list_x_axis=mapping_faixa_salario.values(),
+    color_scale = colors_scales['Analista de BI'],
+    df_original_cuz_is_filtered=df,
+)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats2.png)
+
+Tem a opçâo também de calcular a porcentagem para cada ângulo (x ou y)
+
+```
+colocando o parametro pct_axis='x'
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats3.png)
+
+```
+colocando o parametro pct_axis='y'
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats4.png)
+
+### Grouped bar cat x cat
+
+precisa das seguintes funçâos
+
+```python
+def get_percentage_complex(df1, df_origin, col_target):
+    """
+    Retorna a porcentage de um valor sobre o sum no dataframe original.
+    Eh necessario fazer manulamente pois se não tiver todas as combinaçoes de cat feats
+    ao fazer da forma automatica da erro. Entao, eh necessario para haver
+    AS COMBINAÇÇOES CAT_FEAT CUJA CONTAGEM SEJA ZERO 
+    """
+    array = []
+    df_sum = df_origin[col_target].value_counts().reset_index()
+    df_sum.columns = [col_target, 'sum']
+    for index, row in df1.iterrows():
+        if(row['count'] != 0):
+            v = 100 * (row['count'] / df_sum[ df_sum[col_target] == row[col_target]]['sum'].iloc[0])
+        else:
+            v = 0
+        array.append(v)
+    return array
+```
+
+
+
+```python
+def plotly_bar_grouped_cat_feats(
+    df, catx, cat2, title='',orderby_func=None,
+    percentage=False, color_dict=None, replace_dict=None, legend_dict=None):
+    """
+    + Parecido com 'plotly_cat_to_cat' mas com as barras separas
+      Mostra a quantidade/porcentagem de valores de 'cat2' para cada 'catx'
+    + Há dois modos: com e sem 'percentage'
+      - com percentage é a porcentagem do valor em relaçao ao todo da legenda (cat2)
+    + @color_dict = mapeia valor de 'cat2' para uma cor'#HEX'
+    """
+    cols = [catx, cat2]
+    df_temp = df.groupby(cols).size().to_frame('count').reindex(
+        pd.MultiIndex.from_product([df[catx].unique(), df[cat2].unique()]), fill_value = 0)
+    df_temp = df_temp.reset_index().dropna()
+    df_temp.columns = cols + ['count']
+
+    df_temp['percentage'] = get_percentage_complex(df_temp, df, catx)
+    df_temp['total'] = df_temp['percentage']
+    df_temp.columns = cols + ['Counts', 'Percentage', 'Total']
+    
+    y_target = 'Counts'
+    y_axis_title = 'Count'
+    
+    if(percentage):
+        map_total_cat2 = df[cat2].value_counts().to_dict()
+        df_temp['total_cat2'] = df_temp[cat2].map(map_total_cat2)
+        df_temp['Percentage'] = 100 * (df_temp['Counts'] / df_temp['total_cat2'])
+        y_target = 'Percentage'
+        y_axis_title = 'Percentage'
+        
+    if(color_dict):
+        df_temp['color'] = df_temp[cat2].map(color_dict)
+        
+    if(replace_dict):
+        df_temp[catx].replace(replace_dict, inplace=True)
+
+    fig = px.histogram(
+        df_temp, x=catx, y=y_target, color=cat2,
+        color_discrete_sequence= df_temp['color'] if color_dict else [],
+        barmode='group', category_orders=orderby_func, 
+        title=title,
+    )
+    
+    fig.update_layout(
+        yaxis=dict(
+            title=y_axis_title, # titulo do eixo y
+            gridcolor='#F5F5F5', # cor das linhas horizontais (do eixo y)
+            ticksuffix='%' if percentage else '' # adicionar sufixo no eixo y
+        ),
+        xaxis_zeroline=False,
+        plot_bgcolor = "#fff", # fundo da cor branco
+        legend= legend_dict if legend_dict else dict(),
+    )
+    fig.show()
+```
+
+Definindo Legendas
+
+```
+legends = {
+    'top_out': dict(
+        title_text='',
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="left",
+        x=0
+    ),
+    'right_inside': dict(
+        xanchor="right",
+        x=1,
+    ),
+}
+
+```
+
+
+
+Exemplo
+
+```python
+plotly_bar_grouped_cat_feats(
+    df, 'salario', 'nivel',
+    'Porcentagem do nivel por salario',
+    salary_order, 
+    True,
+    color_dict=colors,
+    legend_dict=legends['top_out'],
+)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_bar_grouped_cat_feats.png)
 
 ## NUMBER FEAT
 
@@ -640,28 +875,38 @@ plotly_number_feat_describe(df, "('P1_a ', 'Idade')", 'Idade', 'Estatisticas Des
 ### NUMBER -> CAT FEAT
 
 ```python
-def plotly_describe_numberf_by_catf(df, number_feat, cat_feat, title=''):
+def plotly_describe_numberf_by_catf(df, number_feat, cat_feat, title='', color_dict=None):
     title = number_feat + ' by ' + cat_feat if not title else title
     # dropnan pois se houver nao conegue por as cores corretamente
     # e tambem nao muda em nada, pois so faz o box de quem NAO TEM NAN
     cols = [number_feat, cat_feat]
     adf = df[cols].dropna(axis='index', subset=cols)
+    if(color_dict):
+        adf['color'] = adf[cat_feat].map(color_dict)
+        
     # Box Plot
-    fig = px.box(adf, 
-         x=cat_feat, 
-         y=number_feat,
-         color=cat_feat,
-        )
+    fig = px.box(
+        adf, 
+        x=cat_feat, 
+        y=number_feat,
+        color=cat_feat,
+        # isso pode nao esta bem ordenado
+        color_discrete_sequence=adf['color'].unique() if color_dict else None
+    )
     # Configs
     fig.update_layout(
-        title_text=title, title_x=0.5,
+        title_text=title, 
+        # title_x=0.5, # se ativado titulo fica no meio
+        yaxis=dict(
+            gridcolor='#F5F5F5', # cor das linhas horizontais (do eixo y)
+        ),
+        plot_bgcolor = "#fff", # fundo da cor branco
     )
     fig.show()
-    
 ```
 
 ```python
-plotly_describe_numberf_by_catf(df, "('P1_a ', 'Idade')", "('P2_g ', 'Nivel')", 'Idade por Nivel')
+plotly_describe_numberf_by_catf(df, 'idade', 'nivel', 'Idade por nivel', color_dict=colors)
 ```
 
 ![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_describe_numberf_by_catf.png)
