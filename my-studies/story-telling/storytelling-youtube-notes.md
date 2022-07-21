@@ -310,4 +310,67 @@ Documentação e legibilidade do código:
 - Uma pessoa vai conseguir interpretar seu código e entender o que foi feito em cada etapa?
 - Foi feita uma explicação objetiva de como dados externos foram obtidos, citando as fontes?
 - O código/notebook permite que as análises sejam “reproduzíveis”?
+
+
+
+---
+---
+---
+
+# 4 - Live: Data Storytelling e Visualização de Dados - aprenda com os especialistas
+
+url: https://www.youtube.com/watch?v=-8Imt-ZPkK0
+
++ 10min30sw - Andre Sionek: Como foi vencer a competição da kaggle
+  - Ele virou um uns 4 dias e ganhou mesmo entregando encima da hora.
+
++ 13min10s - Pode usar PiePlot?
+  - Existe um consenso de que não é muito bom usar gráfico de comida, mas não é proibido
+
++ 18min50s - Dicas para Dataviz
+  - Felipe: Suas visualizaçôes tem que passar aquilo que você quer contar no stroy telling. DESTAQUE NO GRÁFICO AQUILO QUE VOCÊ QUER PASSAR.
+    * É como um cara da competiçâo fez: TORNA TUDO CINZA EXCETO AQUILO QUE VOCÊ QUER MOSTRAR
+  - Paulo:
+    * Das cocnlusôes de um gráfico você pode puxar para outro, isso é muito legal de ser contado.
+    * Pode usar cosias como stremlit para criar um produtino/dash e contar sobre os dados
+  - Sionek: 
+    * Pense na sua audiência
+    * Um bom deseigner é ter um padrâo bem estabelecido, e, se for quebrar, quebrar de maniera estratégicai.
+    * Se atenten ao contraste da cor.
+  - Pollyana:
+    * Use cor de forma estatégica, que faça sentido
+    * Use paletas de cores e pense em pessoas com dautonismo. Nâo mistrure verde com vermelho. 
+     
++ 35min - Sobre StoryTelling
+   - Não é TCC que você tem que fazer as estatísticas e o cruzamento de todas as features
+   - Foque nos principais insights. Não precisa contar tudo sobre os dados. **MENOS É MAIS**
+   - **QUEM VAI GANHAR É QUEM VAI CHAMAR MAIS ATNEÇÂO, QUEM VAI PENSAR FORA DA CAIXA**
+
++ 47min - Mais dica de StoryTelling
+  - Polyana: Storytelling nâo é ler o gráfico, descerverndo o que está aparecendo. É, ter isso e ainda assim contar uma histórica linkando essas coisas. E realmente tirar insighs interessantes.
+
++ 1h: Escuta as outputs que nâo sejam interessantes
+
+
+Dica: Framework DIBB (Data, Insight, Belief, Bet)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   ​

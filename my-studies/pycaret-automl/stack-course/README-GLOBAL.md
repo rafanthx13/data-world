@@ -1,0 +1,61 @@
+# C:\Users\Vilma\Downloads\Stack.Academy\#5.AutoML com Pycaret
+
+Tempo: 06h56m41s || Quantidade de Módulos 5
+
+## File Tree
+
+├─── 01 - Conceitos e Introdução a AutoML (51m24s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\Conhecendo a Biblioteca Pycaret - Aula 07 (06m17s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\Etapas e Tarefas do Pipeline de Machine Learning - Aula 05 (06m39s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\Introdução e Conceitos de AutoML - Aula 04 (06m53s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\Introdução e objetivo do curso - Aula 01 (05m32s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\O que não é AutoML - Aula 06 (05m50s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\Responsabilidades do Cientista de Dados - Aula 02 (08m31s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\Responsabilidades do Engenheiro de Machine Learning - Aula 03 (05m30s)
+│       Módulo 01 - Conceitos e Introdução a AutoML\Tarefas e Problemas onde podemos usar o Pycaret - Aula 08 (06m12s)
+│
+├─── 02 - Criando um Pipeline de Machine Learning para Classificação (01h34m28s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Avaliando a Performance do Modelo utilizando Gráficos - Aula 16 (05m46s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Comparando Modelos de Machine Learning Automaticamente - Aula 13 (09m41s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Criando o Pipeline de Transformação e Preparação de Dados - Aula 12 (13m34s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Entendendo a Estrutura de Métodos do Pycaret - Aula 11 (08m53s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Finalizando o Modelo e Preparando para Deploy - Aula 18 (05m26s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Instalando o Pycaret e Carregando a Base de Dados - Aula 09 (14m06s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Otimizando Hiperparametros do Modelo Automaticamente - Aula 15 (12m37s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Realização a Predição no Conjunto de Validação - Aula 17 (11m09s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Separando os Conjuntos de Dados para Modelagem - Aula 10 (05m17s)
+│       Módulo 02 - Criando um Pipeline de Machine Learning para Classificação\Treinando o Melhor Modelo utilizando Cross Validation - Aula 14 (07m59s)
+│
+├─── 03 - Préprocessamento e Transformação de Dados (02h48m13s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Aplicando métodos de feature selection (Parte 2) - Aula 35 (07m31s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Aplicando métodos de feature selection - Aula 34 (15m26s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Codificando features categóricas preservando a ordem de grandeza - Aula 28 (09m21s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Combinando features com valores raros - Aula 33 (10m10s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Criando um experimento para testar diferentes tipos de input e seus parametros (Parte 2) - Aula 27 (05m52s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Criando um experimento para testar diferentes tipos de input e seus parametros - Aula 26 (14m13s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Criando um experimento para tratar features com alta cardinalidade - Aula 30 (09m16s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Criando um experimento para tratar registros missing com inputation simple - Aula 21 (15m07s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Definindo e inicializando o Pipeline de Transformação e Preparação dos Dados - Aula 19 (09m57s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Definindo experimento para tratar missing values com input simple em features categóricas - Aula 22 (06m30s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Definindo um experimeto para tratar missing values com input do tipo simple para features numéricas (Parte 2) - Aula 24 (07m33s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Definindo um experimeto para tratar missing values com input do tipo simple para features numéricas - Aula 23 (13m37s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Entendendo e criando um experimento para o método de input do tipo iterative em features numéricas - Aula 25 (11m26s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Entendendo os métodos para tratamento de features com alta cardinalidade - Aula 29 (09m10s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Entendendo os tipos de imputação Simple e Iterative - Aula 20 (07m01s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Parametros para tratamento de registros desconhecidos, redução da dimensionalidade e seleção de features - Aula 31 (08m29s)
+│       Módulo 03 - Préprocessamento e Transformação de Dados\Tratando features com baixa variância - Aula 32 (07m34s)
+│
+├─── 04 - Criando um Pipeline de Machine Learning para Regressão (51m43s)
+│       Módulo 04 - Criando um Pipeline de Machine Learning para Regressão\Análise de dados e preparação dos conjuntos de dados - Aula 37 (10m34s)
+│       Módulo 04 - Criando um Pipeline de Machine Learning para Regressão\Comparando e avaliando modelos de regressão - Aula 40 (08m26s)
+│       Módulo 04 - Criando um Pipeline de Machine Learning para Regressão\Conceitos fundamentais do módulo de Regressão - Aula 36 (06m19s)
+│       Módulo 04 - Criando um Pipeline de Machine Learning para Regressão\Definindo o Pipeline de Transformação com o Setup - Aula 39 (10m42s)
+│       Módulo 04 - Criando um Pipeline de Machine Learning para Regressão\Inspecionando a base de dados através do Pandas Profiling - Aula 38 (09m21s)
+│       Módulo 04 - Criando um Pipeline de Machine Learning para Regressão\Realizando a predição e finalizando o modelo - Aula 41 (06m21s)
+│
+├─── 05 - Criando um Pipeline de Machine Learning para Clustering (50m53s)
+│       Módulo 05 - Criando um Pipeline de Machine Learning para Clustering\Avaliando os resultados e aplicando o tunning do modelo - Aula 45 (16m40s)
+│       Módulo 05 - Criando um Pipeline de Machine Learning para Clustering\Criando o modelo utilizando o KMeans - Aula 44 (10m53s)
+│       Módulo 05 - Criando um Pipeline de Machine Learning para Clustering\Definindo o Pipeline de Transformação e pré-processamento - Aula 43 (13m42s)
+│       Módulo 05 - Criando um Pipeline de Machine Learning para Clustering\Fundamentos e conceitos do módulo de clustering - Aula 42 (09m38s)
+│
