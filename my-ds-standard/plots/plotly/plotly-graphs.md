@@ -791,12 +791,257 @@ plotly_bar_grouped_cat_feats(
 
 ![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_bar_grouped_cat_feats.png)
 
+## BINARY DESCRIBE CAT FEAT
+
+### Cat feat por binary class 1
+
+```python
+def plotly_diff_prop_cat_by_binarycat(df, cat_feat_x, cat_binary_feat, title,
+                                      color1='lightgray', color2='#710c04'):
+    
+    fig = make_subplots(rows=2, cols=1, row_heights = [3,5], 
+                        specs=[[{"secondary_y":True}],[{"secondary_y":True}]],
+                        print_grid=False,
+                        shared_xaxes="rows" )
+    
+    val1, val2 = df[cat_binary_feat].unique()
+    colors = [color1,color2]
+
+    prop = pd.crosstab(df[cat_feat_x], df[cat_binary_feat], normalize='columns')*100
+    novo_df = pd.DataFrame(prop[val1] - prop[val2], columns=['diff'])
+    linhas_2 = px.bar(novo_df, x=novo_df.index, y='diff', color_discrete_sequence = colors)
+
+    linhas_2.update_layout(xaxis_showticklabels=False)
+    for d in linhas_2.data:
+        fig.add_trace((go.Bar(
+            x=d['x'], y=d['y'],
+            name = "Diferença <br />(" + val1 + ' - ' + val2 + ")",
+            marker_color=np.where(novo_df["diff"]>0, color1,color2))),
+          row=1, col=1)
+
+    prop = pd.crosstab(df[cat_feat_x],df[cat_binary_feat],normalize='columns')*100
+    linhas_1 = px.line(prop, x=prop.index, y=[val1, val2], markers=True,
+                  color_discrete_sequence =colors)
+
+    for d in linhas_1.data:
+        fig.add_trace((go.Scatter(
+            x=d['x'], y=d['y'], name = d['name'], line=d['line'],
+            yaxis=d['yaxis'])), row=2, col=1)
+
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)')   
+    fig.update_layout(xaxis_showticklabels=False)
+
+    fig['layout']['title']= title
+    fig['layout']['yaxis']['title']='Diferença entre<br /> proporções (%)'
+    fig['layout']['yaxis3']['title']='Proporção (%)'
+    fig.show()
+```
+
+```python
+plotly_diff_prop_cat_by_binarycat(df, 'grau_instrucao', 'eleito', 'Diff eleito de graduação')
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_diff_prop_cat_by_binarycat.png)
+
+### Cat feat por binary class 2
+
+```python
+def plotly_prop_many_vals_by_binary_feat(df, cat_feat, cat_binary_feat, title='',
+    color0='lightgray', color1='#710c04', width=1000, height=400, text=''):
+    
+    val0, val1 = df[cat_binary_feat].unique()
+    colors = [color0,color1]
+    
+    tab_binary_class = pd.crosstab(df[cat_binary_feat],
+                                   columns='count',normalize='columns') * 100
+    mean_prop_true_value =  tab_genero.loc[val1]['count']
+    
+    prop_form = pd.crosstab(df[cat_feat],df[cat_binary_feat],normalize='index')\
+            .sort_values(by=val1,ascending=False) * 100
+
+    formacao = list(prop_form.index.values)
+    
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        y=formacao,
+        orientation='h',
+        x=prop_form[val1] ,
+        name=val1,
+        marker_color=color1,
+    ))
+    fig.add_trace(go.Bar(
+        y=formacao,
+        x=prop_form[val0] ,
+        name=val0,
+        marker_color=color0,
+        orientation='h'
+    ))
+    
+    fig.update_layout(title=title)
+    fig.update_layout(barmode='stack', xaxis_tickangle=-45)
+    fig.update_layout(width=width, height=height)
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)')
+    fig.add_vline(x=mean_prop_true_value, y1=0.85, line_color="black")
+    fig.add_annotation(x=mean_prop_true_value, y=len(df[cat_feat].unique()),
+                text=text, showarrow=True, yshift=10 ,arrowhead=1)
+    fig.show()
+```
+
+```python
+plotly_prop_many_vals_by_binary_feat(
+    df, 'estado_civil', 'eleito',
+    title='Proporção de eleitos ou não na categoria do Estado civil',
+    text='Proporção geral de quem é eleito'
+)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_prop_many_vals_by_binary_feat.png)
+
+### Cat feat por binary class 3
+
+```python
+def plotly_prop_many_vals_by_binary_feat_vbar(df, cat_feat, cat_binary_feat, title='',
+    color0='lightgray', color1='#710c04', width=900, height=500):
+    # É complementar ao plotly_prop_many_vals_by_binary_feat, ou outra forma de dizer a mesma coisa
+    val0, val1 = df[cat_binary_feat].unique()
+    
+    prop_form = pd.crosstab(df[cat_feat],df[cat_binary_feat],normalize='index')\
+            .sort_values(by=val1,ascending=False) * 100
+
+    formacao = list(prop_form.index.values)
+    
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        y=formacao,
+        x=prop_form[val0] ,
+        name=val0,
+        marker_color=color0,
+        orientation='h'
+    ))
+    fig.add_trace(go.Bar(
+        y=formacao,
+        x=prop_form[val1] ,
+        name=val1,
+        marker_color=color1,
+        orientation='h'
+    ))
+    
+    fig.update_layout(title=title)
+    fig.update_layout(barmode='group', xaxis_tickangle=-45)
+    fig.update_layout(width=width, height=height)
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)')
+    fig.show()
+```
+
+```python
+plotly_prop_many_vals_by_binary_feat_vbar(
+    df, 'estado_civil', 'eleito',
+    title='Proporção de eleitos ou não na categoria do Estado civil',
+)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_prop_many_vals_by_binary_feat_vbar.png)
+
+### Cat feat por binary class 4
+
+```python
+def plotly_pyramid_qtd_by_binary_feat(df, cat_feat, cat_binary_feat, title='', yaxis_title='',
+    color0='lightgray', color1='#710c04', width=800, height=500):
+    
+    val0, val1 = df[cat_binary_feat].unique()
+    props_binary = pd.crosstab(df[cat_feat],df[cat_binary_feat])
+
+    val1_pop = list(props_binary[val1])
+    val0_pop = [element * -1 for element in list(props_binary[val0])]
+    faixa = list(props_binary.index.values)
+
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        y=faixa, x=val0_pop, name=val0,
+        marker_color=color0, orientation='h'
+    ))
+    fig.add_trace(go.Bar(
+        y=faixa, x=val1_pop, name=val1,
+        marker_color=color1, orientation='h'
+    ))
+
+    fig['layout']['title']= title
+    fig['layout']['yaxis']['title']= yaxis_title
+    fig.update_layout(barmode='relative', xaxis_tickangle=-90)
+    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)')
+    fig.update_layout(width=width, height=height)
+    fig.show()
+```
+
+```python
+plotly_pyramid_qtd_by_binary_feat(
+    df, 'estado_civil', 'eleito',
+    title='Pirâmide do Estado Civil segundo o gênero',
+    yaxis_title='Estado Civil',
+)
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_pyramid_qtd_by_binary_feat.png)
+
 ## NUMBER FEAT
+
+## DF DESCRIBE NUMERIC FEAT BY CATEGORY CLASSIFY
+
+```python
+def df_describe_numeric_feat_by_class(df, number_col, classify_feat, rename_col='', title='', symbol=''):
+    """
+    Pra uma coluna numerica cria: pandas.describe, histograma e violin plot
+    """
+    # DEFINE CONSTANTS
+    rename_col = number_col if not rename_col else rename_col
+    the_title = number_col if not title else title
+    # Create Table - index and all category
+    adf = df[number_col].describe().reset_index().rename(
+        columns={'index': 'Statistics', number_col: rename_col})
+    interval = df[number_col].max() - df[number_col].min()
+    adf.at[1,rename_col] = round(adf.at[1,rename_col], 2) # round mean
+    adf.at[2,rename_col] = round(adf.at[2,rename_col], 2) # round std
+    adf = adf.append({'Statistics': 'interval', rename_col: interval },
+                     ignore_index = True)
+    for category in list(df[classify_feat].unique()):
+        df_temp = df[ df[classify_feat] == category]
+        df_aux = df_temp.describe()[rename_col].reset_index()
+        df_aux.at[1,col] = round(df_aux.at[1,col], 1) # round mean
+        df_aux.at[2,col] = round(df_aux.at[2,col], 1) # round std
+        df_aux = df_aux.append(
+            {'index': 'interval', rename_col:
+             df_aux[rename_col].max() - df_aux[rename_col].min() },
+            ignore_index = True
+        )
+        adf[rename_col + ' - ' + category] = df_aux[rename_col]
+    return adf
+```
+
+```python
+df_describe_numeric_feat_by_class(df_cand, 'bens', 'eleito')
+```
+
+![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\df_describe_numeric_feat_by_class.png)
 
 ### DESCRIBE NUMBER FEAT
 
 ```python
-def plotly_number_feat_describe(df, number_col, rename_col='', title=''):
+def convert_to_money_plotly_describe(df, col, symbol='R$'):
+    """
+    Corrige arredondando e pondo corretamente as coisas
+    """
+    df[col] = df[col].apply(lambda x: str(x))
+    space_add = ' ' if symbol != '' else ''
+    for i, row in df.iterrows():
+        if(row['Statistics'] != 'count'):
+            correct_value = symbol + space_add +"{:,.2f}".format(float(row[col])).replace(
+            ',','x').replace('.',',').replace('x','.')
+            df.at[i,col] = str(correct_value)
+        else: 
+            df.at[i,col] = str(int(float(row[col])))
+    return df
+
+def plotly_number_feat_describe(df, number_col, rename_col='', title='', symbol=''):
     """
     Pra uma coluna numerica cria: pandas.describe, histograma e violin plot
     """
@@ -811,6 +1056,9 @@ def plotly_number_feat_describe(df, number_col, rename_col='', title=''):
     adf.at[2,rename_col] = round(adf.at[2,rename_col], 2) # std
     adf = adf.append({'Statistics': 'interval', rename_col: interval },
                      ignore_index = True)
+    
+    df_fix_numbers = convert_to_money_plotly_describe(adf, rename_col, symbol)
+    
     # CREATE SUBPLOT
     fig = make_subplots(
         rows=1, cols=3,
@@ -822,14 +1070,16 @@ def plotly_number_feat_describe(df, number_col, rename_col='', title=''):
     # FIG 1: PLOTLY TABLE
     fig.add_trace(
         go.Table(
+            columnwidth = [150,200],
             header=dict(
                 values=list(adf.columns),
                 fill_color='rgb(100, 31, 104)',
                 align='left',
-                font=dict(color='white', size=14),
+                font=dict(color='white', size=12),
             ),
             cells=dict(
-                values=[adf['Statistics'], adf[rename_col] ],
+                values=[df_fix_numbers['Statistics'],
+                        df_fix_numbers[rename_col] ],
                 fill_color='rgb(230, 240, 240)',
                 align='left'),
         ),
@@ -859,11 +1109,12 @@ def plotly_number_feat_describe(df, number_col, rename_col='', title=''):
     )
     # FIGURE CONFIGS
     fig.update_layout(
-        width=900, height=500,
+        width=1050, height=500,
         title_text=the_title
     )
     fig.show()
     # use print(px.colors.sequential.dense) para gerar paleta de cores
+    return adf
 ```
 
 ```python
