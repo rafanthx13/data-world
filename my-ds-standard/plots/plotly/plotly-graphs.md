@@ -6,7 +6,7 @@
 
 Link https://plotly.com/python/builtin-colorscales/
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\colors-plotly.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/colors-plotly.png)
 
 Buscar paleta de cores
 
@@ -72,7 +72,9 @@ def pie_plotly_cat_feat(adf, col, title):
     fig.show()   
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\pie_plot_one_cat_feat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/pie_plot_one_cat_feat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/imgs/reduce_mem_usage.png)
+https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/bar_plotly_cat_feat.png
 
 ### `pie_plot_one_cat_feat`
 
@@ -200,7 +202,7 @@ Exemplo
 bar_plotly_cat_feat(df, "('P2_h ', 'Faixa salarial')", 'Novo Titulo', 'Faixa Salarial')
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\bar_plotly_cat_feat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/bar_plotly_cat_feat.png)
 
 ### CAT BY CAT
 
@@ -292,7 +294,7 @@ plotly_cat_to_cat(
 )
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_cat_to_cat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_cat_to_cat.png)
 
 
 
@@ -386,7 +388,7 @@ plotly_kde_cat_to_cat(df_temp, cat_salary, cat_y,
                       order_func=order_by_salary)
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_kde_cat_to_cat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_kde_cat_to_cat.png)
 
 ### SCATTER POLAR -> CAT BY CAT FILTERING
 
@@ -468,7 +470,7 @@ y_vals = ['Python', 'SQL', 'R', 'Java', 'Scala']
 plotly_scatter_polar(df, x_col, x_vals, y_col, y_vals, 'Linguagens por Cargos', 85)
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_scatter_polar.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_scatter_polar.png)
 
 ### Describe cat Feat filtering by others cat-feats in df
 
@@ -509,7 +511,7 @@ bar_plotly_describe_cat_feat_filter_cat_feats_values(
 
 CUIDADO COM A ORDENAÇÃO: você pode criar uma coluna com a ordem, fazer um `sort` usando elas no df e assim vai sair ordenado
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\bar_plotly_describe_cat_feat_filter_cat_feats_values.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/bar_plotly_describe_cat_feat_filter_cat_feats_values.png)
 
 ###  HEAT MAP CAT BY CAT
 
@@ -639,7 +641,7 @@ plotly_heatmap_cat_feats(
 )
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_heatmap_cat_feats.png)
 
 É possível agora filtra o dataframe e fazer o heatmap contando as combinaçoes que nao ocorrem entre x e y após a filtragem
 
@@ -655,7 +657,7 @@ plotly_heatmap_cat_feats(
 )
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats2.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_heatmap_cat_feats2.png)
 
 Tem a opçâo também de calcular a porcentagem para cada ângulo (x ou y)
 
@@ -663,13 +665,13 @@ Tem a opçâo também de calcular a porcentagem para cada ângulo (x ou y)
 colocando o parametro pct_axis='x'
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats3.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_heatmap_cat_feats3.png)
 
 ```
 colocando o parametro pct_axis='y'
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_heatmap_cat_feats4.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_heatmap_cat_feats4.png)
 
 ### Grouped bar cat x cat
 
@@ -789,7 +791,7 @@ plotly_bar_grouped_cat_feats(
 )
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_bar_grouped_cat_feats.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_bar_grouped_cat_feats.png)
 
 ## BINARY DESCRIBE CAT FEAT
 
@@ -841,7 +843,7 @@ def plotly_diff_prop_cat_by_binarycat(df, cat_feat_x, cat_binary_feat, title,
 plotly_diff_prop_cat_by_binarycat(df, 'grau_instrucao', 'eleito', 'Diff eleito de graduação')
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_diff_prop_cat_by_binarycat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_diff_prop_cat_by_binarycat.png)
 
 ### Cat feat por binary class 2
 
@@ -895,7 +897,7 @@ plotly_prop_many_vals_by_binary_feat(
 )
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_prop_many_vals_by_binary_feat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_prop_many_vals_by_binary_feat.png)
 
 ### Cat feat por binary class 3
 
@@ -940,7 +942,7 @@ plotly_prop_many_vals_by_binary_feat_vbar(
 )
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_prop_many_vals_by_binary_feat_vbar.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_prop_many_vals_by_binary_feat_vbar.png)
 
 ### Cat feat por binary class 4
 
@@ -981,7 +983,7 @@ plotly_pyramid_qtd_by_binary_feat(
 )
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_pyramid_qtd_by_binary_feat.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_pyramid_qtd_by_binary_feat.png)
 
 ## NUMBER FEAT
 
@@ -1021,7 +1023,7 @@ def df_describe_numeric_feat_by_class(df, number_col, classify_feat, rename_col=
 df_describe_numeric_feat_by_class(df_cand, 'bens', 'eleito')
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\df_describe_numeric_feat_by_class.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/df_describe_numeric_feat_by_class.png)
 
 ### DESCRIBE NUMBER FEAT
 
@@ -1121,7 +1123,7 @@ def plotly_number_feat_describe(df, number_col, rename_col='', title='', symbol=
 plotly_number_feat_describe(df, "('P1_a ', 'Idade')", 'Idade', 'Estatisticas Descritivas para a Idade')
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_number_feat_describe.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_number_feat_describe.png)
 
 ### NUMBER -> CAT FEAT
 
@@ -1160,7 +1162,7 @@ def plotly_describe_numberf_by_catf(df, number_feat, cat_feat, title='', color_d
 plotly_describe_numberf_by_catf(df, 'idade', 'nivel', 'Idade por nivel', color_dict=colors)
 ```
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\plotly_describe_numberf_by_catf.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/plotly_describe_numberf_by_catf.png)
 
 ## OTHERS DETAILS
 
@@ -1168,7 +1170,7 @@ plotly_describe_numberf_by_catf(df, 'idade', 'nivel', 'Idade por nivel', color_d
 
 Como pintar somente uma coluna; desenhar cor e por texto
 
-![](G:\Personal Projects\DATA-SCIENCE-PROJECT\data-world\my-ds-standard\plots\plotly\imgs\how-apply-it.png)
+![](https://github.com/rafanthx13/data-world/blob/main/my-ds-standard/plots/plotly/imgs/how-apply-it.png)
 
 ```python
 ########## COLORIR SOMENTE UMA COLUNA ##########
